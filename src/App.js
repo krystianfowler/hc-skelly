@@ -1,7 +1,9 @@
 import * as React from "react";
 
+import UnauthenticatedApp from "./unauthenticated-app";
+
 function App() {
-  return <h1>Fresh start</h1>;
+  return <UnauthenticatedApp />;
 }
 
 export default App;
