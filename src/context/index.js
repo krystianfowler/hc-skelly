@@ -1,13 +1,13 @@
-import * as React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { AuthProvider } from "./auth-context";
+import * as React from 'react'
+import {BrowserRouter as Router} from 'react-router-dom'
+import {AppProvider} from './auth-context'
 
-function AppProviders({ children }) {
+function AppProviders({children}) {
   return (
     <Router>
-      <AuthProvider>{children}</AuthProvider>
+      <AppProvider>{children}</AppProvider>
     </Router>
-  );
+  )
 }
 
-export { AppProviders };
+export {AppProviders}

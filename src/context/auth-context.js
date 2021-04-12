@@ -7,18 +7,25 @@ const AppStateContext = React.createContext()
 
 const AppDispatchContext = React.createContext()
 
-const appReducer = (state, action) => {
+const defaultState = {
+  language: 'en-GB',
+}
+
+function appReducer(state, action) {
   switch (action.type) {
-    case 'storeToken': {
-      return {...state, accessToken: action.payload}
+    case 'storeClientIdAndSecret': {
+      return {
+        ...state,
+        clientId: action.payload.clientId,
+        clientSecret: action.payload.clientSecret,
+      }
     }
-
-    case 'storeClientId': {
-      return {...state, clientId: action.payload}
-    }
-
-    case 'storeClientSecret': {
-      return {...state, clientSecret: action.payload}
+    case 'storeAccessAndRefreshTokens': {
+      return {
+        ...state,
+        accessToken: action.payload.access_token,
+        refreshToken: action.payload.refresh_token,
+      }
     }
 
     case 'removeToken': {
@@ -39,10 +46,10 @@ const appReducer = (state, action) => {
   }
 }
 
-const AppProvider = ({children}) => {
+function AppProvider({children}) {
   const [state, dispatch] = React.useReducer(appReducer, {}, () => {
     const localData = localStorage.getItem(localStorageKey)
-    return localData ? JSON.parse(localData) : {}
+    return localData ? JSON.parse(localData) : defaultState
   })
 
   React.useEffect(() => {
@@ -66,7 +73,7 @@ AppProvider.defaultProps = {
   children: null,
 }
 
-const useAppState = () => {
+function useAppState() {
   const context = React.useContext(AppStateContext)
 
   if (context === undefined) {
@@ -76,7 +83,7 @@ const useAppState = () => {
   return context
 }
 
-const useAppDispatch = () => {
+function useAppDispatch() {
   const context = React.useContext(AppDispatchContext)
 
   if (context === undefined) {
