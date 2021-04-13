@@ -10,12 +10,9 @@ import {client} from 'util/api-client'
 function UnauthenticatedApp() {
   return (
     <Switch>
-      <Route exact path="/authorize">
-        <APIRedirectLandingScreen />
-      </Route>
-      <Route path="/">
-        <AuthScreen />
-      </Route>
+      <Route exact path="/authorize" component={APIRedirectLandingScreen} />
+
+      <Route path="/" component={AuthScreen} />
     </Switch>
   )
 }
