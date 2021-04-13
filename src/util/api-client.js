@@ -4,7 +4,7 @@ const apiURL = process.env.REACT_APP_API_URL
 
 async function client(
   endpoint,
-  {data, formData, token, headers: customHeaders, ...customConfig} = {},
+  {data, formData, accessToken, headers: customHeaders, ...customConfig} = {},
 ) {
   const config = {
     method: data || formData ? 'POST' : 'GET',
@@ -14,12 +14,12 @@ async function client(
       ? qs.stringify(formData)
       : undefined,
     headers: {
-      //   Authorization: token ? `Bearer ${token}` : undefined,
       'Content-Type': data
         ? 'application/json'
         : formData
         ? 'application/x-www-form-urlencoded'
         : undefined,
+      ...(Boolean(accessToken) && {Authorization: `Bearer ${accessToken}`}),
       ...customHeaders,
     },
     ...customConfig,
