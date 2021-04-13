@@ -1,5 +1,6 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+import {client} from 'util/api-client'
 
 const localStorageKey = '__hc_skelly_state__'
 
@@ -93,4 +94,11 @@ function useAppDispatch() {
   return context
 }
 
-export {AppProvider, useAppState, useAppDispatch}
+function useClient() {
+  const {accessToken} = useAppState()
+  return React.useCallback((endpoint, config) =>
+    client(endpoint, {...config, accessToken}),
+  )
+}
+
+export {AppProvider, useAppState, useAppDispatch, useClient}
