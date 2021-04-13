@@ -29,7 +29,6 @@ function AuthScreen() {
 function APIRedirectLandingScreen() {
   const params = new URLSearchParams(window.location.search)
   const authorizationCode = params.get('code')
-  console.log(authorizationCode)
 
   const {clientId, clientSecret} = useAppState()
   const dispatch = useAppDispatch()
@@ -47,9 +46,8 @@ function APIRedirectLandingScreen() {
       }
       client('security/oauth/token', config)
         .then(response => {
+          //Also ensures next render will be the authenticated app
           dispatch({type: 'storeAccessAndRefreshTokens', payload: response})
-          //Move user to authenticated app
-          window.location.assign(process.env.REACT_APP_URL)
         })
         .catch(error => console.log(error))
     }
