@@ -4,7 +4,14 @@ const apiURL = process.env.REACT_APP_API_URL
 
 async function client(
   endpoint,
-  {data, formData, accessToken, headers: customHeaders, ...customConfig} = {},
+  {
+    data,
+    formData,
+    accessToken,
+    language,
+    headers: customHeaders,
+    ...customConfig
+  } = {},
 ) {
   const config = {
     method: data || formData ? 'POST' : 'GET',
@@ -19,6 +26,7 @@ async function client(
         : formData
         ? 'application/x-www-form-urlencoded'
         : undefined,
+      'Accept-Language': language,
       ...(Boolean(accessToken) && {Authorization: `Bearer ${accessToken}`}),
       ...customHeaders,
     },
