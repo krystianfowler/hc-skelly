@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {Switch, Route} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
 
 import {AuthForm} from 'components/auth-form'
 import {LanguagePicker} from 'components/language-picker'
@@ -11,8 +11,10 @@ function UnauthenticatedApp() {
   return (
     <Switch>
       <Route exact path="/authorize" component={APIRedirectLandingScreen} />
-
-      <Route path="/" component={AuthScreen} />
+      <Route exact path="/" component={AuthScreen} />
+      <Route>
+        <Redirect to="/" />
+      </Route>
     </Switch>
   )
 }
