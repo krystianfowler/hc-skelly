@@ -2,6 +2,7 @@ import * as React from 'react'
 import {Switch, Route, Redirect} from 'react-router-dom'
 
 import {SelectScreen} from 'screens/SelectScreen'
+import {LogoutButton} from 'components/lib'
 
 function AuthenticatedApp() {
   const [appliance, setAppliance] = React.useState()
@@ -9,18 +10,21 @@ function AuthenticatedApp() {
   const setSelectedAppliance = appliance => setAppliance(appliance)
 
   return (
-    <Switch>
-      <Route exact path="/select">
-        <SelectScreen setSelectedAppliance={setSelectedAppliance} />
-      </Route>
-      <Route exact path="/dashboard">
-        <StatusScreen appliance={appliance} />
-        <ProgramScreen appliance={appliance} />
-      </Route>
-      <Route>
-        <Redirect to="/select" />
-      </Route>
-    </Switch>
+    <>
+      <LogoutButton />
+      <Switch>
+        <Route exact path="/select">
+          <SelectScreen setSelectedAppliance={setSelectedAppliance} />
+        </Route>
+        <Route exact path="/dashboard">
+          <StatusScreen appliance={appliance} />
+          <ProgramScreen appliance={appliance} />
+        </Route>
+        <Route>
+          <Redirect to="/select" />
+        </Route>
+      </Switch>
+    </>
   )
 }
 

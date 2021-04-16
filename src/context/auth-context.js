@@ -29,7 +29,7 @@ function appReducer(state, action) {
       }
     }
 
-    case 'removeToken': {
+    case 'clearState': {
       return {}
     }
 
