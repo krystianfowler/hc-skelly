@@ -22,4 +22,17 @@ function LogoutButton() {
   )
 }
 
-export {FullPageSpinner, LogoutButton}
+function ProgressBar({progress}) {
+  return (
+    <div className="shadow w-3/4 bg-gray-600 rounded mx-auto">
+      <div
+        className="bg-blue-400 text-xs leading-none py-1 text-center text-white rounded"
+        style={{width: `${progress}%`}}
+      >
+        {progress}%
+      </div>
+    </div>
+  )
+}
+
+export {FullPageSpinner, LogoutButton, ProgressBar}
