@@ -34,6 +34,10 @@ async function client(
   }
 
   return window.fetch(`${apiURL}/${endpoint}`, config).then(async response => {
+    if (response.status === 204) {
+      return response
+    }
+
     const data = await response.json()
     if (response.ok) {
       return data
