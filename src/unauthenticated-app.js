@@ -3,7 +3,7 @@ import {Switch, Route, Redirect} from 'react-router-dom'
 
 import {AuthForm} from 'components/auth-form'
 import {LanguagePicker} from 'components/language-picker'
-import {FullPageSpinner} from 'components/lib'
+import {Spinner} from 'components/lib'
 import {useAppDispatch, useAppState} from 'context/auth-context'
 import {client} from 'util/api-client'
 
@@ -48,7 +48,6 @@ function APIRedirectLandingScreen() {
       }
       client('security/oauth/token', config)
         .then(response => {
-          //Also ensures next render will be the authenticated app
           dispatch({type: 'storeAccessAndRefreshTokens', payload: response})
         })
         .catch(error => console.log(error))
@@ -57,7 +56,7 @@ function APIRedirectLandingScreen() {
 
   return (
     <div className="flex min-h-screen bg-indigo-50 text-gray-700">
-      <FullPageSpinner />
+      <Spinner />
     </div>
   )
 }

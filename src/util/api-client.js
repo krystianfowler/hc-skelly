@@ -37,7 +37,6 @@ async function client(
     if (response.status === 204) {
       return response
     }
-
     const data = await response.json()
     if (response.ok) {
       return data

@@ -119,7 +119,7 @@ function useEventSource(applianceHaId) {
       }
     }
 
-    eventSource.addEventListener('open', () => console.log('OPEN!'), false)
+    // eventSource.addEventListener('open', () => console.log('OPEN!'), false)
     eventSource.addEventListener('KEEP-ALIVE', handleEvent, false)
     eventSource.addEventListener('STATUS', handleEvent, false)
     eventSource.addEventListener('NOTIFY', handleEvent, false)

@@ -31,7 +31,7 @@ function SelectScreen({setSelectedAppliance}) {
             const selectedApplianceObj = appliances.filter(
               obj => obj.name === selectedApplianceName,
             )
-            console.log(selectedApplianceObj[0])
+
             setSelectedAppliance(selectedApplianceObj[0])
             history.push('/dashboard')
           }}

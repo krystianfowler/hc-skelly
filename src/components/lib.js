@@ -3,9 +3,11 @@ import * as React from 'react'
 import {useAppState, useAppDispatch} from 'context/auth-context'
 import translations from 'translations'
 
-function FullPageSpinner() {
+function Spinner({size = 64}) {
   return (
-    <div className="loader animate-spin rounded-full border-8 border-t-8 border-gray-200 h-64 w-64 m-auto" />
+    <div
+      className={`loader animate-spin rounded-full border-8 border-t-8 border-gray-200 h-${size} w-${size} m-auto`}
+    />
   )
 }
 
@@ -35,4 +37,4 @@ function ProgressBar({progress}) {
   )
 }
 
-export {FullPageSpinner, LogoutButton, ProgressBar}
+export {Spinner, LogoutButton, ProgressBar}
