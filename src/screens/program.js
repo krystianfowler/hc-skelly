@@ -1,23 +1,30 @@
 import * as React from 'react'
+import {useHistory} from 'react-router-dom'
 
 import {ProgramForm} from 'components/program-form'
 import {Spinner} from 'components/lib'
-import {useClient} from 'context/auth-context'
+import {useAppState, useClient} from 'context/auth-context'
 import {toast} from 'util/toast'
+import translations from 'translations'
 
 function ProgramScreen({appliance}) {
   const [programs, setPrograms] = React.useState(null)
 
   const client = useClient()
+  const {language} = useAppState()
+  const history = useHistory()
 
   React.useEffect(() => {
     client(`api/homeappliances/${appliance.haId}/programs/available`)
       .then(response => {
         setPrograms(response.data.programs)
-        toast.success('Available oven programs pulled from API')
+        toast.success(translations.programSuccessToast[language])
       })
-      .catch(error => toast.error(error.error.description))
-  }, [appliance.haId, client])
+      .catch(error => {
+        toast.error(error.error.description)
+        history.push('/dashboard')
+      })
+  }, [appliance.haId, client, language, history])
 
   return (
     <div className="bg-indigo-50 flex-grow flex">

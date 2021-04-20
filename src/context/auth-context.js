@@ -1,6 +1,8 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
+
 import {client} from 'util/api-client'
+import {toast} from 'util/toast'
+import translations from 'translations'
 
 const localStorageKey = '__hc_skelly_state__'
 
@@ -66,14 +68,6 @@ function AppProvider({children}) {
   )
 }
 
-AppProvider.propTypes = {
-  children: PropTypes.node,
-}
-
-AppProvider.defaultProps = {
-  children: null,
-}
-
 function useAppState() {
   const context = React.useContext(AppStateContext)
 
@@ -95,10 +89,39 @@ function useAppDispatch() {
 }
 
 function useClient() {
-  const {accessToken, language} = useAppState()
+  const {accessToken, language, refreshToken, clientSecret} = useAppState()
+  const dispatch = useAppDispatch()
+
   return React.useCallback(
-    (endpoint, config) => client(endpoint, {...config, accessToken, language}),
-    [accessToken, language],
+    (endpoint, config) =>
+      client(endpoint, {...config, accessToken, language}).catch(error => {
+        // Handle expired access token
+        if (error.error.key === 'invalid_token') {
+          client('security/oauth/token', {
+            formData: {
+              grant_type: 'refresh_token',
+              refresh_token: refreshToken,
+              client_secret: clientSecret,
+            },
+          })
+            .then(response => {
+              dispatch({type: 'storeAccessAndRefreshTokens', payload: response})
+              toast.success(translations.refreshTokenSuccessToast[language])
+              // Continue with original request
+              return client(endpoint, {
+                ...config,
+                accessToken: response.access_token,
+                language,
+              })
+            })
+            .catch(error => {
+              console.log(translations.refreshTokenFailToast[language])
+              Promise.reject(error)
+            })
+        }
+        return Promise.reject(error)
+      }),
+    [accessToken, language, refreshToken, clientSecret, dispatch],
   )
 }
 

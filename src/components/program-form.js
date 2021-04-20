@@ -2,8 +2,9 @@ import * as React from 'react'
 import {useFormik} from 'formik'
 import {useHistory} from 'react-router-dom'
 
-import {useClient} from 'context/auth-context'
+import {useClient, useAppState} from 'context/auth-context'
 import {toast} from 'util/toast'
+import translations from 'translations'
 
 function ProgramForm({programs, haId}) {
   const [tempOptions, setTempOptions] = React.useState()
@@ -11,6 +12,7 @@ function ProgramForm({programs, haId}) {
   const [disabled, setDisabled] = React.useState(true)
 
   const client = useClient()
+  const {language} = useAppState()
   const history = useHistory()
 
   const formik = useFormik({
@@ -58,7 +60,7 @@ function ProgramForm({programs, haId}) {
         },
       })
         .then(response => {
-          toast.success('Program started')
+          toast.success(translations.programFormSuccessToast[language])
           history.push('/dashboard')
         })
         .catch(error => {
@@ -76,12 +78,12 @@ function ProgramForm({programs, haId}) {
         .then(response => {
           const options = response.data.options
           storeOptions(options)
-          toast.success('Program options pulled from API')
+          toast.success(translations.programFormOptionsSuccessToast[language])
           setDisabled(false)
         })
         .catch(error => toast.error(error.error.description))
     }
-  }, [formik.values.program, programs, client, haId])
+  }, [formik.values.program, programs, client, haId, language])
 
   function storeOptions(options) {
     for (const option of options) {
@@ -124,7 +126,9 @@ function ProgramForm({programs, haId}) {
     <div className="w-full max-w-lg m-auto bg-gray-200 rounded px-4 py-6 shadow-xl">
       <form onSubmit={formik.handleSubmit}>
         <div className="grid grid-rows-3 grid-cols-2 gap-5">
-          <label htmlFor="program">Program</label>
+          <label htmlFor="program">
+            {translations.programViewProgramLabel[language]}
+          </label>
           <select
             id="program"
             name="program"
@@ -132,12 +136,16 @@ function ProgramForm({programs, haId}) {
             onChange={formik.handleChange}
             value={formik.values.program}
           >
-            <option hidden>Select a program</option>
+            <option hidden>
+              {translations.programViewProgramLabel[language]}
+            </option>
             {programs.map(program => {
               return <option key={program.name}>{program.name}</option>
             })}
           </select>
-          <label htmlFor="temperature">Temperature</label>
+          <label htmlFor="temperature">
+            {translations.programViewTemperatureLabel[language]}
+          </label>
           <select
             id="temperature"
             name="temperature"
@@ -146,10 +154,14 @@ function ProgramForm({programs, haId}) {
             value={formik.values.temperature}
             disabled={disabled}
           >
-            <option hidden>Select temperature</option>
+            <option hidden>
+              {translations.programViewTemperatureLabel[language]}
+            </option>
             {disabled ? null : renderTempOptions()}
           </select>
-          <label htmlFor="program">Duration</label>
+          <label htmlFor="program">
+            {translations.programViewDurationLabel[language]}
+          </label>
           <select
             id="duration"
             name="duration"
@@ -158,7 +170,9 @@ function ProgramForm({programs, haId}) {
             value={formik.values.duration}
             disabled={disabled}
           >
-            <option hidden>Select duration</option>
+            <option hidden>
+              {translations.programViewDurationLabel[language]}
+            </option>
             {disabled ? null : renderDurationOptions()}
           </select>
         </div>
@@ -166,7 +180,7 @@ function ProgramForm({programs, haId}) {
           type="submit"
           className="w-full bg-green-300 hover:bg-green-400 font-bold py-2 px-4 mt-8 rounded active:bg-green-300"
         >
-          Submit
+          {translations.programViewSendCommandButton[language]}
         </button>
       </form>
     </div>

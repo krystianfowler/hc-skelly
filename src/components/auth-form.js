@@ -28,7 +28,7 @@ function AuthForm() {
         onSubmit={values => {
           dispatch({type: 'storeClientIdAndSecret', payload: values})
 
-          window.location.href = `${process.env.REACT_APP_API_URL}/security/oauth/authorize?client_id=${values.clientId}&redirect_uri=${process.env.REACT_APP_URL}/authorize&response_type=code&scope=IdentifyAppliance%20Oven`
+          window.location.href = `${process.env.REACT_APP_API_URL}/security/oauth/authorize?client_id=${values.clientId}&redirect_uri=${process.env.REACT_APP_URL}/authorize&response_type=code&scope=IdentifyAppliance%20Oven&accept_language=${language}`
         }}
       >
         {({isSubmitting}) => (
