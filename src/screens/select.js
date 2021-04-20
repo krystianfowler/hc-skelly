@@ -26,6 +26,13 @@ function SelectScreen({setSelectedAppliance}) {
       <div className="w-full max-w-md mx-auto bg-gray-200 rounded p-5 shadow-xl">
         <Formik
           initialValues={{appliance: ''}}
+          validate={values => {
+            const errors = {}
+            if (values.appliance === '') {
+              errors.appliance = 'Please select an appliance'
+            }
+            return errors
+          }}
           onSubmit={values => {
             const selectedApplianceName = values.appliance.substr(
               0,
@@ -66,7 +73,11 @@ function SelectScreen({setSelectedAppliance}) {
                 return null
               })}
             </Field>
-            <ErrorMessage name="appliance" component="div" />
+            <ErrorMessage
+              name="appliance"
+              component="div"
+              className="text-xs text-red-500"
+            />
             <button
               type="submit"
               className="w-full bg-blue-200 hover:bg-blue-300 font-bold py-2 px-4 my-2 rounded active:bg-blue-200 cursor-pointer"
