@@ -3,6 +3,7 @@ import * as React from 'react'
 import {ProgramForm} from 'components/program-form'
 import {Spinner} from 'components/lib'
 import {useClient} from 'context/auth-context'
+import {toast} from 'util/toast'
 
 function ProgramScreen({appliance}) {
   const [programs, setPrograms] = React.useState(null)
@@ -11,8 +12,11 @@ function ProgramScreen({appliance}) {
 
   React.useEffect(() => {
     client(`api/homeappliances/${appliance.haId}/programs/available`)
-      .then(response => setPrograms(response.data.programs))
-      .catch(error => console.log(error))
+      .then(response => {
+        setPrograms(response.data.programs)
+        toast.success('Available oven programs pulled from API')
+      })
+      .catch(error => toast.error(error.error.description))
   }, [appliance.haId, client])
 
   return (

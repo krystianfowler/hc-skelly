@@ -3,6 +3,7 @@ import {useFormik} from 'formik'
 import {useHistory} from 'react-router-dom'
 
 import {useClient} from 'context/auth-context'
+import {toast} from 'util/toast'
 
 function ProgramForm({programs, haId}) {
   const [tempOptions, setTempOptions] = React.useState()
@@ -19,7 +20,6 @@ function ProgramForm({programs, haId}) {
       duration: '',
     },
     onSubmit: values => {
-      console.log(values)
       const programKey = getProgramKey(formik.values.program, programs)
 
       const reqData = {
@@ -58,10 +58,13 @@ function ProgramForm({programs, haId}) {
         },
       })
         .then(response => {
-          console.log(response)
+          toast.success('Program started')
           history.push('/dashboard')
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+          toast.error(error.error.description)
+          history.push('/dashboard')
+        })
     },
   })
 
@@ -73,9 +76,10 @@ function ProgramForm({programs, haId}) {
         .then(response => {
           const options = response.data.options
           storeOptions(options)
+          toast.success('Program options pulled from API')
           setDisabled(false)
         })
-        .catch(error => console.log(error))
+        .catch(error => toast.error(error.error.description))
     }
   }, [formik.values.program, programs, client, haId])
 

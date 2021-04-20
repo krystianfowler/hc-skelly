@@ -5,6 +5,7 @@ import {SelectScreen} from 'screens/select'
 import {StatusScreen} from 'screens/status'
 import {DashboardScreen} from 'screens/dashboard'
 import {ProgramScreen} from 'screens/program'
+import {Toast} from 'components/toast'
 import {LogoutButton} from 'components/lib'
 
 function AuthenticatedApp() {
@@ -14,6 +15,7 @@ function AuthenticatedApp() {
 
   return (
     <>
+      <Toast />
       <LogoutButton />
       <Switch>
         <Route exact path="/select">

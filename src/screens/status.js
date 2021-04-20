@@ -4,8 +4,9 @@ import {useHistory} from 'react-router-dom'
 
 import {Oven} from 'components/oven'
 import {ProgressBar} from 'components/lib'
-import {useAppState} from 'context/auth-context'
+import {useAppState, useClient} from 'context/auth-context'
 import {useEventSource} from 'util/event-source'
+import {toast} from 'util/toast'
 import translations from 'translations'
 
 function StatusScreen({appliance}) {
@@ -22,6 +23,15 @@ function StatusScreen({appliance}) {
   } = useEventSource(appliance.haId)
   const {language} = useAppState()
   const history = useHistory()
+  const client = useClient()
+
+  const stopProgram = () => {
+    client(`api/homeappliances/${appliance.haId}/programs/active`, {
+      method: 'DELETE',
+    })
+      .then(response => toast.success('Program stopped'))
+      .catch(error => toast.error(error))
+  }
 
   return (
     <>
@@ -74,7 +84,7 @@ function StatusScreen({appliance}) {
               <button
                 type="button"
                 className="bg-red-300 hover:bg-red-400 rounded px-5 py-3 mt-2 font-semibold"
-                onClick={() => console.log('Stop active program')}
+                onClick={stopProgram}
               >
                 {translations.applianceStatusViewStopProgramButton[language]}
               </button>

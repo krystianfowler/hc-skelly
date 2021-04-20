@@ -44,3 +44,21 @@ code {
     fill: #ffe680;
   }
 }
+
+.toast-enter {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+.toast-enter-active {
+  opacity: 1;
+  transition: all 200ms ease-out;
+  transform: translateX(0);
+}
+.toast-exit {
+  opacity: 1;
+}
+.toast-exit-active {
+  opacity: 0;
+  transition: all 200ms ease-in;
+  transform: translateX(10px);
+}

@@ -3,6 +3,7 @@ import {Formik, Form, Field, ErrorMessage} from 'formik'
 import {useHistory} from 'react-router-dom'
 
 import {useAppState, useClient} from 'context/auth-context'
+import {toast} from 'util/toast'
 import translations from 'translations'
 
 function SelectScreen({setSelectedAppliance}) {
@@ -13,8 +14,11 @@ function SelectScreen({setSelectedAppliance}) {
 
   React.useEffect(() => {
     client('api/homeappliances')
-      .then(response => setAppliances(response.data.homeappliances))
-      .catch(error => console.log(error))
+      .then(response => {
+        setAppliances(response.data.homeappliances)
+        toast.success('Connected ovens pulled from API')
+      })
+      .catch(error => toast.error(error.error.description))
   }, [client])
 
   return (
