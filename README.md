@@ -3,7 +3,7 @@ Skeleton application for interating with the Home Connect API. Lets you control 
 
 <h3 align="center">
   <a href="https://nostalgic-snyder-5dbfc3.netlify.app/">Visit the live app</a> |
-  <a href="https://developer.home-connect.com/">Home Connect API documentation</a>
+  <a href="https://api-docs.home-connect.com/general">Home Connect API documentation</a>
 </h3>
 
 ## Prerequisites
