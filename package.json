@@ -1,7 +1,7 @@
 {
-  "name": "hc-skelly-rewrite",
+  "name": "hc-skelly",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@craco/craco": "^6.1.1",
     "@testing-library/jest-dom": "^5.11.10",
