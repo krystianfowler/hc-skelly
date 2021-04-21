@@ -3,10 +3,10 @@ import * as React from 'react'
 import {useAppState, useAppDispatch} from 'context/auth-context'
 import translations from 'translations'
 
-function Spinner({size = 64}) {
+function Spinner() {
   return (
     <div
-      className={`loader animate-spin rounded-full border-8 border-t-8 border-gray-200 h-${size} w-${size} m-auto`}
+      className={`loader animate-spin rounded-full border-8 border-t-8 border-gray-200 h-64 w-64 m-auto`}
     />
   )
 }
